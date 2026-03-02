@@ -12,8 +12,8 @@ const text = $('#text');
 const amount = $('#amount');
 const modal = $('#modalOverlay');
 const openModalBtn = $('#openModal');
-const closeModalBtn = $('#closeModal');
-const searchInput = $('#search-input');
+const closeModalBtn = $('#close-btn');
+const searchInput = $('#search');
 const filterBtns = $$('.filter-btn');
 
 const categoryIcons = {
@@ -39,9 +39,9 @@ function addTransaction(e) {
         id: Math.floor(Math.random() * 100000000),
         text: text.value,
         amount: amount.value,
-        type: "income",
+        type: type,
         category: category,
-        date: new Date().toLocalDateString()
+        date: new Date().toLocaleDateString()
     };
 
     transactions.push(transaction);
@@ -53,13 +53,13 @@ function addTransaction(e) {
 }
 
 function removeTransaction(id) {
-    transactions = transactions.filter(t => t.id !== id);
+    transactions = transactions.filter(t => t.id != id);
     updateLocalStorage();
     init();
 }
 
 function updateLocalStorage() {
-    localStorage.setItem('transactions', transactions);
+    localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
 // Calculate Totals
@@ -71,7 +71,7 @@ function updateValues() {
     let inc = 0;
     let exp = 0;
 
-    for (let i = 1; i < transactions.length; i++) {
+    for (let i = 0; i < transactions.length; i++) {
         const amt = parseFloat(transactions[i].amount);
         total += amt;
         if (amt > 0) inc += amt;
@@ -92,7 +92,9 @@ function renderTransactions() {
     // Filter Search
     const query = searchInput.value;
     if (query) {
-        filtered = filtered.filter(t => t.info.includes(query));
+        filtered = filtered.filter(t =>
+            t.text.toLowerCase().includes(query.toLowerCase())
+        );
     }
 
     if (currentFilter !== 'all') {
@@ -100,7 +102,7 @@ function renderTransactions() {
     }
 
     filtered.forEach(transaction => {
-        const sign = transaction.amount < 0 ? '-' : '+';
+        const sign = transaction.amount < 0 ? '+' : '-';
         const itemClass = transaction.amount < 0 ? 'amount-expense' : 'amount-income';
         const item = document.createElement('li');
 
@@ -114,7 +116,7 @@ function renderTransactions() {
             <div class="item-amount ${itemClass}">
                 ${sign}$${Math.abs(transaction.amount)}
             </div>
-            <button class="delete-btn" onclick="removeTransaction('${transaction.id}')">
+            <button class="delete-btn" onclick="removeTransaction(${transaction.id})">
                 🗑️
             </button>
         `;
@@ -148,3 +150,14 @@ filterBtns.forEach(btn => {
 });
 
 init();
+
+const radios = document.querySelectorAll('input[name="transaction-type"]');
+
+radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+        document.querySelectorAll('.radio-label')
+            .forEach(label => label.classList.remove('active'));
+
+        radio.closest('.radio-label').classList.add('active');
+    });
+});

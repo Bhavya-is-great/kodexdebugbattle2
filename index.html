@@ -27,14 +27,14 @@
       <!-- Stats Grid -->
       <div class="stats-grid">
         <div class="stat-item income">
-          <div class="stat-icon">↑</div>
+          <!-- <div class="stat-icon">↑</div> -->
           <div class="stat-info">
             <span>Income</span>
             <h3 id="total-income">$0.00</h3>
           </div>
         </div>
         <div class="stat-item expense">
-          <div class="stat-icon">↓</div>
+          <!-- <div class="stat-icon">↓</div> -->
           <div class="stat-info">
             <span>Expense</span>
             <h3 id="total-expense">$0.00</h3>
@@ -45,7 +45,7 @@
       <!-- Controls -->
       <div class="controls">
         <div class="search-bar">
-          <input type="text" id="text" placeholder="Search transactions..." />
+          <input type="text" id="search" placeholder="Search transactions..." />
         </div>
         <button class="btn-add" id="openModal">+ Add Transaction</button>
       </div>
@@ -96,7 +96,7 @@
           <div class="form-group">
             <label>Type</label>
             <div class="type-selector">
-              <label class="radio-label">
+              <label class="radio-label active">
                 <input
                   type="radio"
                   name="transaction-type"
@@ -113,16 +113,16 @@
           </div>
           <div class="form-group">
             <label for="category">Category</label>
-            <select>
-              <option value="salary">Salary</option>
-              <option value="food">Food</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="shopping">Shopping</option>
-              <option value="utilities">Utilities</option>
-              <option value="other">Other</option>
+            <select id="category">
+              <option class="opt" value="salary">Salary</option>
+              <option class="opt" value="food">Food</option>
+              <option class="opt" value="entertainment">Entertainment</option>
+              <option class="opt" value="shopping">Shopping</option>
+              <option class="opt" value="utilities">Utilities</option>
+              <option class="opt" value="other">Other</option>
             </select>
           </div>
-          <button type="submit" class="btn-submit">Save Transaction</button>
+          <button type="submit" class="btn-submit btn-add">Save Transaction</button>
         </form>
       </div>
     </div>
