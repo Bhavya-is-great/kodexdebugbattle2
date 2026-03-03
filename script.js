@@ -73,11 +73,11 @@ function updateValues() {
 
     for (let i = 0; i < transactions.length; i++) {
         const amt = parseFloat(transactions[i].amount);
-        total += amt;
-        if (amt > 0) inc += amt;
+        if (transactions[i].type == 'income') inc += amt;
         else exp += amt;
     }
-
+    
+    total = inc - exp;
     balance.innerText = `$${total.toFixed(2)}`;
     income.innerText = `$${inc.toFixed(2)}`;
     expense.innerText = `$${Math.abs(exp).toFixed(2)}`;
@@ -102,8 +102,8 @@ function renderTransactions() {
     }
 
     filtered.forEach(transaction => {
-        const sign = transaction.amount < 0 ? '+' : '-';
-        const itemClass = transaction.amount < 0 ? 'amount-expense' : 'amount-income';
+        const sign = transaction.type == 'expense' ? '-' : '+';
+        const itemClass = transaction.type == 'expense' ? 'amount-expense' : 'amount-income';
         const item = document.createElement('li');
 
         item.classList.add('transaction-item');
